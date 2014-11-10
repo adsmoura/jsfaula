@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastro de Pessoas</title>
+    </h:head>
+    <h:body>
+    <h:form id="cadPessoa">
+        <h:outputLabel value="Nome" for="txtNome"/>
+        <h:inputText id="txtNome" value="#{pessoaBean.p.nome}"/>
+        <br/>
+        <h:outputLabel value="Idade" for="txtNome"/>
+        <h:inputText id="txtIdade" value="#{pessoaBean.p.idade}"/>
+        <br/>
+        <h:outputLabel value="CPF" for="txtNome"/>
+        <h:inputText id="txtCpf" value="#{pessoaBean.p.cpf}"/>
+        <br/>
+        <h:outputLabel value="Data de Nascimento" for="txtNome"/>
+        <h:inputText id="txtData" value="#{pessoaBean.p.dataNascimento}">
+            <f:convertDateTime type="date" pattern="d/M/yyyy" timeZone="GMT-3"/>
+        </h:inputText>
+        <br/>
+        <h:commandButton value="Salvar" action="#{pessoaBean.salvarPessoa}">
+            <f:ajax execute="@form" render="tabelaPessoas"/>
+        </h:commandButton>
+    </h:form>
+        <br/><br/>
+        <h:dataTable id="tabelaPessoas" value="#{pessoaBean.pessoas}" var="pessoa">
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{pessoa.nome}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idade</f:facet>
+                <h:outputText value="#{pessoa.idade}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Data de Nascimento</f:facet>
+                <h:outputText value="#{pessoa.dataNascimento}">
+                    <f:convertDateTime type="date" pattern="d/M/yyyy" timeZone="GMT-3"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">CPF</f:facet>
+                <h:outputText value="#{pessoa.cpf}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Excluir</f:facet>
+                <h:form>
+                    <h:commandLink action="#{pessoaBean.excluirPessoa(pessoa)}" value="[X]">
+                        <f:ajax execute="@this" render="tabelaPessoas"/>
+                    </h:commandLink>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+    </h:body>
+</html>
